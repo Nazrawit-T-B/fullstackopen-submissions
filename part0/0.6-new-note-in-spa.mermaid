@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note over browser: The user types their text and clicks the submit button
+    Note over browser: The JavaScript event handler prevents the default form submit behavior
+    Note over browser: The script adds the new note directly to the local array and immediately updates the DOM view
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    Note over browser: Sends JSON payload: {content: "single page app does not reload the whole page", date: "2019-05-25T15:15:59.905Z"}
+    activate server
+    Note over server: Server stores the incoming JSON block inside the database array
+    server-->>browser: HTTP status code 201 (Created)
+    deactivate server
+
+    Note over browser: No secondary GET requests are performed; the UI stays updated seamlessly

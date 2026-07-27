@@ -1,0 +1,35 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note over browser: The user types a note and clicks the Save/Submit button
+
+    browser->>server: POST to https://studies.cs.helsinki.fi/exampleapp/new_note
+    activate server
+    Note over server: The server extracts the data from the text field and saves it to the notes database
+    server-->>browser: HTTP status code 302 (URL Redirect to /exampleapp/notes)
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    activate server
+    server-->>browser: The HTML document
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: The CSS file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate server
+    server-->>browser: The JavaScript file
+    deactivate server
+
+    Note over browser: The browser starts executing the JavaScript code that fetches the JSON from the server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ..., { "content": "Your new note", "date": "2026-07-27" }]
+    deactivate server
+
+    Note over browser: The browser executes the callback function that renders the complete list of notes including the new one
