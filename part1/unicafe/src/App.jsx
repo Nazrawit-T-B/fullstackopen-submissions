@@ -1,5 +1,5 @@
 import {useState} from 'react'
-const Stat=({good,neutral, bad,all})=>{
+const Statistics=({good,neutral, bad,all})=>{
   return (
     <>
       <h1>statistics</h1>
@@ -37,9 +37,8 @@ const App=()=>{
       <button onClick={handleGoodClick}>good</button>
       <button onClick={handleNeutralClick}>neutral</button>
       <button onClick={handleBadClick}>bad</button>
-      <h1>statistics</h1>
       <Statistics good={good} neutral={neutral} bad={bad} all={all} />
-      
+    
     </div>
   )
 }
