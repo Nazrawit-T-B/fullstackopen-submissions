@@ -5,26 +5,32 @@ const Statistics=({good,neutral, bad,all})=>{
   }else{
     return (
     <>
-      <StatisticLine text="good" value={good}/>
+    <table>
+      <tbody>
+        <StatisticLine text="good" value={good}/>
       <StatisticLine text="neutral" value={neutral}/>
       <StatisticLine text="bad" value={bad}/>
       <StatisticLine text="all" value={all}/>
       <StatisticLine text="average" value={(good-bad)/all}/>
-      <StatisticLine text="positive" value={(good/all)*100}/>
-      
+      <StatisticLine text="positive" value={`${(good/all)*100} %`}/>
+      </tbody>
+    </table>
     </>
   )
   }
 }
 const StatisticLine =({text,value})=>{
   return(
-    <p>{text} {value}</p>
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
 
   )
 }
 
-const Button=({text,onclick})=>{
-  return (<button onClick={onclick}>{text}</button>)
+const Button=({text, onClick})=>{
+  return <button onClick={onClick}>{text}</button>
 }
 
 const App=()=>{
