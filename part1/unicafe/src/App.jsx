@@ -19,7 +19,6 @@ const App=()=>{
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
   const [all, setAll]=useState(0)
-  const[avg,setAvg]=useState(0)
   const handleGoodClick=()=>{
     setGood(good+1)
     setAll(all+1)
