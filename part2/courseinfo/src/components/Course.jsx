@@ -1,16 +1,24 @@
-const Course=({course})=>{
-    return(
-        <>
-         <div>
-            {course.parts.map(p=>(
-                <p key={p.id}>{p.name} {p.exercises}</p>
+const Course = ({ course }) => {
+  
+  return (
+    <>
+      {course.map((c) => (
+        <div key={c.id}>
+          <h2>{c.name}</h2>
+          <div>
+            {c.parts.map((p) => (
+              <p key={p.id}>
+                {p.name} {p.exercises}
+              </p>
             ))}
-            <h4> total of {course.parts.reduce((sum, p) => sum + p.exercises, 0)} exercises </h4>
-         </div>
-        </>
-   
-    )
- 
+            <h4>
+              total of {c.parts.reduce((sum, p) => sum + p.exercises, 0)} exercises
+            </h4>
+          </div>
+        </div>
+      ))}
+    </>
+  );
+};
 
-}
-export default Course
+export default Course;
