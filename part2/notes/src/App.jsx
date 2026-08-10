@@ -1,69 +1,71 @@
-import Note from './components/Note'
-import {useState,useEffect} from 'react'
-import axios from 'axios'
-import noteService from './services/notes'
+import Note from "./components/Note";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import noteService from "./services/notes";
 
 const App = () => {
-  const [notes,setNotes]=useState([])
-  const [newNote,setNewNote]=useState('a new note...')
-  const [showAll,setShowAll]=useState(true)
+  const [notes, setNotes] = useState([]);
+  const [newNote, setNewNote] = useState("a new note...");
+  const [showAll, setShowAll] = useState(true);
 
-  useEffect(()=>{
-    console.log('effect')
-  noteService
-  .getAll()
-    .then(response=>{
-      console.log('promise fulfilled')
-      setNotes(response.data)
-    })},[])
-    console.log('render',notes.length,'notes')
-    
-  const addNote=(event)=>{
-    event.preventDefault()
-    console.log('button clicked',event.target)
-    const noteObject={
-      content:newNote,
-      important:Math.random()<0.5,
-    }
-    noteService.create(noteObject).then(response=>{console.log(response)
-      setNotes(notes.concat(response.data))
-       setNewNote('')
-    })
-   
-  }
-  const handleNoteChange=(event)=>{
-    console.log(event.target.value)
-    setNewNote(event.target.value)
-  }
-  const notesToShow=showAll?notes :notes.filter(note=>note.important === true)
+  useEffect(() => {
+    console.log("effect");
+    noteService.getAll().then((initalNotes) => setNotes(initalNotes));
+  }, []);
 
-  const toggleImportanceOf=(id)=>{
-    const note=notes.find(n=>n.id === id)
-    const changedNote={...note,important:!note.important}
-   noteService.update(id,changedNote).then(response=>{
-      setNotes(notes.map(note=>note.id === id? response.data:note))
+  const addNote = (event) => {
+    event.preventDefault();
+    console.log("button clicked", event.target);
+    const noteObject = {
+      content: newNote,
+      important: Math.random() < 0.5,
+    };
+    noteService.create(noteObject).then( returnedNote=>{
+      setNotes(notes.concat(returnedNote))
+      setNewNote('')
+    });
+  };
+  const handleNoteChange = (event) => {
+    console.log(event.target.value);
+    setNewNote(event.target.value);
+  };
+  const notesToShow = showAll
+    ? notes
+    : notes.filter((note) => note.important === true);
+
+  const toggleImportanceOf = (id) => {
+    const note = notes.find((n) => n.id === id);
+    const changedNote = { ...note, important: !note.important };
+    noteService.update(id, changedNote).then(returnedNote=>{setNotes(notes.map(note=>note.id === id? returnedNote: note))})
+    .catch(error=>{
+      alert(`the note '${note.content}' was already deleted from the server`)
+      setNotes(notes.filter(n=>n.id !== id))
     })
-    console.log('importance of'+ id +' needs to be toogled')
-  }
+    console.log("importance of" + id + " needs to be toogled");
+  };
   return (
     <div>
       <h1>Notes</h1>
       <div>
-        <button onClick={()=>setShowAll(!showAll)}>
-          show {showAll ?'important':'all'}
+        <button onClick={() => setShowAll(!showAll)}>
+          show {showAll ? "important" : "all"}
         </button>
       </div>
       <ul>
         {notesToShow.map((note) => (
-          <Note key={note.id} note={note} toggleImportance={()=>toggleImportanceOf(note.id)}/>
+          <Note
+            key={note.id}
+            note={note}
+            toggleImportance={() => toggleImportanceOf(note.id)}
+          />
         ))}
       </ul>
       <form onSubmit={addNote}>
-        <input value={newNote} onChange={handleNoteChange}/>
+        <input value={newNote} onChange={handleNoteChange} />
         <button type="submit">save</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
