@@ -1,4 +1,5 @@
 import {useState} from 'react'
+import PersonService from '/src/services/persons'
 const Form = ({persons,setPersons}) => {
      const [newName, setNewName] = useState("");
       const [newNumber, setNewNumber] = useState("");
@@ -15,9 +16,10 @@ const Form = ({persons,setPersons}) => {
       number: newNumber,
       id:persons.length+1
     };
-    setPersons(persons.concat(infoObject));
+    PersonService.create(infoObject).then(returnedPerson=>{ setPersons(persons.concat(returnedPerson));
     setNewName("");
-    setNewNumber("");
+    setNewNumber("");})
+   
   };
   const handleNewName = (event) => {
     setNewName(event.target.value);
