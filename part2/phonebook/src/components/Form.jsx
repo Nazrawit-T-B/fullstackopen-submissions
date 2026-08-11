@@ -29,9 +29,11 @@ const Form = ({ persons, setPersons,setMessage }) => {
             setNewNumber("");
           })
           .catch((error) => {
-            alert(
-              `Information of '${existingPerson.name}' has already been removed from server`,
-            );
+          setMessage({
+            text:`Information of ${existingPerson.name} has already been removed from server`,
+            type:'error'
+          }
+            );setTimeout(()=>{setMessage()},5000);
             setPersons(persons.filter((p) => p.id !== existingPerson.id));
           });
       }
@@ -40,7 +42,7 @@ const Form = ({ persons, setPersons,setMessage }) => {
       setPersons(persons.concat(returnedPerson));
       setNewName("");
       setNewNumber("");
-      setMessage(`Added ${returnedPerson.name}`);
+      setMessage({text:`Added ${returnedPerson.name}`, type:'success'});
       setTimeout(() => {
         setMessage();
       }, 5000);

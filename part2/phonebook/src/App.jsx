@@ -8,7 +8,7 @@ import Notification from "./components/Notification";
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [searchFilter, setSearchFilter] = useState("");
-  const [message,setMessage]=useState();
+  const [message,setMessage]=useState({});
   useEffect(() => {
     console.log("effect");
     PersonService.getAll().then((initialPerson) => setPersons(initialPerson));
