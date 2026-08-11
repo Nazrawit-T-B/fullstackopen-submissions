@@ -1,24 +1,47 @@
-import {useState} from 'react'
-import PersonService from '/src/services/persons'
-const Form = ({persons,setPersons}) => {
-     const [newName, setNewName] = useState("");
-      const [newNumber, setNewNumber] = useState("");
-       const AddInfo = (event) => {
+import { useState } from "react";
+import PersonService from "/src/services/persons";
+const Form = ({ persons, setPersons }) => {
+  const [newName, setNewName] = useState("");
+  const [newNumber, setNewNumber] = useState("");
+  const AddInfo = (event) => {
     event.preventDefault();
     if (newName.trim() === "") return;
-    if (persons.some((p) => p.name === newName)) {
-      alert(`${newName} is already added to the phonebook`);
-      setNewName("");
-      return;
-    }
     const infoObject = {
       name: newName,
-      number: newNumber,
-      id:persons.length+1
+      number: newNumber
     };
-    PersonService.create(infoObject).then(returnedPerson=>{ setPersons(persons.concat(returnedPerson));
-    setNewName("");
-    setNewNumber("");})
+    const existingPerson = persons.find((p) => p.name === newName);
+    if (existingPerson) {
+      if (
+        confirm(
+          `${newName} is already added to the phonebook,replace the old number with a new one?`,
+        )
+      ) {
+        const updatedObject = { ...existingPerson, number: newNumber };
+        PersonService.update(existingPerson.id, updatedObject)
+          .then((returnedPerson) => {
+            setPersons(
+              persons.map((p) =>
+                p.id === existingPerson.id ? returnedPerson : p,
+              ),
+            );
+            setNewName("");
+            setNewNumber("");
+          })
+          .catch((error) => {
+            alert(
+              `Information of '${existingPerson.name}' has already been removed from server`,
+            );
+            setPersons(persons.filter((p) => p.id !== existingPerson.id));
+          });
+      }
+    }else{
+       PersonService.create(infoObject).then((returnedPerson) => {
+      setPersons(persons.concat(returnedPerson));
+      setNewName("");
+      setNewNumber("");
+    });
+    }
    
   };
   const handleNewName = (event) => {
