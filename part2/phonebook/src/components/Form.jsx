@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PersonService from "/src/services/persons";
-const Form = ({ persons, setPersons }) => {
+const Form = ({ persons, setPersons,setMessage }) => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const AddInfo = (event) => {
@@ -40,6 +40,10 @@ const Form = ({ persons, setPersons }) => {
       setPersons(persons.concat(returnedPerson));
       setNewName("");
       setNewNumber("");
+      setMessage(`Added ${returnedPerson.name}`);
+      setTimeout(() => {
+        setMessage();
+      }, 5000);
     });
     }
    
