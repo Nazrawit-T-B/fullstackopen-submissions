@@ -1,9 +1,13 @@
-const Form = ({}) => {
+import CountryService from "/src/services/countries";
+const Form = ({searchFilter,setSearchFilter}) => {
+    const handleSearch=(event)=>{
+        setSearchFilter(event.target.value);
+    }
   return (
-    <form >
+    <form onSubmit={(e)=>e.preventDefault()} >
       <div>
         find countries:  
-        <input className="input-field" />
+        <input value={searchFilter} onChange={handleSearch} className="input-field" />
       </div>
     </form>
   );
