@@ -3,7 +3,9 @@ import Form from "./components/Form";
 import CountryService from "./services/countries";
 const App = () => {
   const [countries, setCountries] = useState([]);
-  const [searchFilter, setSearchFilter] = useState(" ");
+  const [searchFilter, setSearchFilter] = useState("");
+   const [weather, setWeather] = useState(null);
+    const [wind,setWind]=useState(null);
   useEffect(() => {
     CountryService.getAll().then((intiCount) => setCountries(intiCount));
   }, []);
@@ -12,6 +14,19 @@ const App = () => {
   );
   const handleView=(country)=>{
    setSearchFilter(country.name.common)
+  }
+  const WeatherDetail=({country})=>{
+   
+  useEffect(() => {
+    if (country.capital && country.capital.length > 0) {
+      CountryService.getWeatherData(country.capital[0])
+        .then((data) => {
+          setWeather(data);
+        })
+        .catch((err) => console.error("Error fetching weather:", err));
+        CountryService.getWind(CountryService.getWind(country.capital[0]))
+    }
+  }, [country]);
   }
   return (
     <div>
@@ -32,10 +47,13 @@ const App = () => {
           <div>
            <img src={countriesToShow[0]?.flags?.png || countriesToShow[0]?.flags?.svg} alt="Country flag" />
             </div>
+             <h1>Weather in {countriesToShow[0].name.common}</h1>
+             <p>Tempreture {()=>WeatherDetail(countriesToShow[0])}</p>
+             <p>Wind {}</p>
         </div>):(<p>No countries match your search</p>)
         }
       </div>
     </div>
   );
 };
-export default App;
+export default App
