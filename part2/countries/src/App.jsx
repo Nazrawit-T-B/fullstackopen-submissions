@@ -19,8 +19,8 @@ const WeatherDetail=({country})=>{
   return (
     <div>
       <h1>Weather in {country.name.common}</h1>
-             <p>Tempreture {weather.main?.temp}</p>
-             <p>Wind {weather.wind?.speed}</p>
+             <p>Tempreture {weather.main?.temp} Celsius</p>
+             <p>Wind {weather.wind?.speed} m/s</p>
     </div>
   )
   }
