@@ -19,14 +19,4 @@ const getWeatherData=(city)=>{
     })
     return request.then((response)=>response.data)
 }
-const getWind=(city)=>{
-    const request=axios.get("https://api.openweathermap.org/data/2.5/weather",{
-        params:{
-            q:city,
-            appid:API_KEY,
-            units: 'metric'
-        }
-    })
-    return request.then((response)=>response.data.wind.deg)
-}
 export default{getAll,searchByName,getWeatherData};
