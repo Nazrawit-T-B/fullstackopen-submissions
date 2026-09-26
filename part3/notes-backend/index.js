@@ -54,7 +54,7 @@ app.get('/api/notes/:id',(request,response)=>{
    
   }).catch(error=>next(error))
 })
-/*app.get('/api/notes/:id', (request, response) => {
+app.get('/api/notes/:id', (request, response) => {
   const id = request.params.id
   const note = notes.find((note) => note.id === id)
 
@@ -63,7 +63,7 @@ app.get('/api/notes/:id',(request,response)=>{
   } else {
     response.status(404).end()
   }
-})*/
+})
 
 const generateId = () => {
   const maxId =
@@ -136,7 +136,7 @@ const errorHandler=(error,response,request,next)=>{
   next(error)
 }
 app.use(errorHandler)
-const PORT = process.env.PORT 
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
