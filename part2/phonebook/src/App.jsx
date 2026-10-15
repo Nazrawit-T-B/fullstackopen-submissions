@@ -11,7 +11,9 @@ const App = () => {
   const [message,setMessage]=useState({});
   useEffect(() => {
     console.log("effect");
-    PersonService.getAll().then((initialPerson) => setPersons(initialPerson));
+    PersonService.getAll().then((initialPerson) => {
+      console.log(initialPerson, Array.isArray(initialPerson));
+      setPersons(initialPerson)});
   }, []);
   const deletePerson = (id) => {
     const person = persons.find((p) => p.id === id);
