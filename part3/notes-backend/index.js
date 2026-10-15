@@ -2,6 +2,8 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const Note=require('./models/note')
+
+{/** 
 let notes = [
   {
     id: '1',
@@ -19,7 +21,7 @@ let notes = [
     important: true,
   },
 ]
-
+*/}
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
   console.log('Path:  ', request.path)
@@ -54,6 +56,7 @@ app.get('/api/notes/:id',(request,response)=>{
    
   }).catch(error=>next(error))
 })
+{/** 
 app.get('/api/notes/:id', (request, response) => {
   const id = request.params.id
   const note = notes.find((note) => note.id === id)
@@ -64,7 +67,7 @@ app.get('/api/notes/:id', (request, response) => {
     response.status(404).end()
   }
 })
-
+*/}
 const generateId = () => {
   const maxId =
     notes.length > 0 ? Math.max(...notes.map((n) => Number(n.id))) : 0
