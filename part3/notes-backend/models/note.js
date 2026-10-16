@@ -19,7 +19,11 @@ mongoose.connect(url, { family: 4  ,serverSelectionTimeoutMS: 8000 })
   })
 
 const noteSchema = new mongoose.Schema({
-  content: String,
+  content: {
+    type: String,
+    minlength: 5, 
+    required: true
+  },
   important: Boolean,
 })
 
