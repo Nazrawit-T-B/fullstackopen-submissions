@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const url = process.env.MONGODB_URI;
 
-console.log("connecting to", url);
+console.log("connecting to mongodb");
 
 mongoose
   .connect(url)
@@ -14,8 +14,23 @@ mongoose
   });
 
 const personSchema = new mongoose.Schema({
-  name: String,
-  number: String,
+  name: {
+    type: String,
+    minlength: 3,
+    required: true,
+  },
+  number: {
+    type: String,
+    minlength: 8,
+    validate: {
+      validator: function (v) {
+        return /^\d{2,3}-\d+$/.test(v);
+      },
+      message: (props) =>
+        `${props.value} is not a valid phone number! It should be in the format XX-XXXXXXX or XXX-XXXXXXX.`,
+    },
+    required: [true, "User phone number required"],
+  }
 });
 
 personSchema.set("toJSON", {
