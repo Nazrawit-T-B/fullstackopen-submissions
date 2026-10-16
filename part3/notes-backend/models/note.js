@@ -1,3 +1,6 @@
+const dns = require('node:dns')
+dns.setServers(['172.20.10.1'])
+
 const mongoose = require('mongoose')
 
 mongoose.set('strictQuery', false)
@@ -5,8 +8,8 @@ mongoose.set('strictQuery', false)
 
 const url = process.env.MONGODB_URI
 
-console.log('connecting to', url)
-mongoose.connect(url, { family: 4 })
+console.log('connecting to mongodb')
+mongoose.connect(url, { family: 4  ,serverSelectionTimeoutMS: 8000 })
 
   .then(result => {
     console.log('connected to MongoDB')
