@@ -1,6 +1,3 @@
-const dns = require('node:dns')
-dns.setServers(['172.20.10.1'])
-
 const mongoose = require('mongoose')
 
 mongoose.set('strictQuery', false)
